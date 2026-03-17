@@ -24,14 +24,14 @@ public class LibraryEntryController {
         return libraryEntryRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<LibraryEntry> getEntryById(@PathVariable Long id) {
         return libraryEntryRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    @GetMapping("/{userId}")
+    @GetMapping("/userId/{userId}")
     public ResponseEntity<List<LibraryEntry>> getEntriesByUserId(@PathVariable String userId) {
         List<LibraryEntry> entries = libraryEntryRepository.findByUserId(userId);
         if (entries == null || entries.isEmpty()) {
@@ -104,12 +104,12 @@ public class LibraryEntryController {
         return ResponseEntity.ok(libraryEntryRepository.saveAll(entries));
     }
 
-    @DeleteMapping("/all")
+    @DeleteMapping("/deleteAll")
     public void deleteAllEntries() {
         libraryEntryRepository.deleteAll();
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/deleteId/{id}")
     public ResponseEntity<LibraryEntry> deleteEntryById(@PathVariable Long id) {
         LibraryEntry entry = libraryEntryRepository.findById(id).orElse(null);
         if (entry == null) {
@@ -119,7 +119,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entry);
     }
 
-    @DeleteMapping("/userId/{userId}")
+    @DeleteMapping("/deleteUserId/{userId}")
     public ResponseEntity<List<LibraryEntry>> deleteEntriesByUserId(@PathVariable String userId) {
         List<LibraryEntry> entries = libraryEntryRepository.findByUserId(userId);
         if (entries == null || entries.isEmpty()) {
@@ -129,7 +129,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entries);
     }
 
-    @DeleteMapping("/mediaItem/{mediaItemId}")
+    @DeleteMapping("/deleteMediaItemId/{mediaItemId}")
     public ResponseEntity<LibraryEntry> deleteEntryByMediaItemId(@PathVariable String mediaItemId) {
         LibraryEntry entry = libraryEntryRepository.findByMediaItemId(mediaItemId).orElse(null);
         if (entry == null) {
@@ -139,7 +139,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entry);
     }
 
-    @DeleteMapping("/status/{status}")
+    @DeleteMapping("/deleteStatus/{status}")
     public ResponseEntity<List<LibraryEntry>> deleteEntriesByStatus(@PathVariable LibraryStatus status) {
         List<LibraryEntry> entries = libraryEntryRepository.findByStatus(status);
         if (entries == null || entries.isEmpty()) {
@@ -149,7 +149,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entries);
     }
 
-    @DeleteMapping("/rating/{rating}")
+    @DeleteMapping("/deleteRating/{rating}")
     public ResponseEntity<List<LibraryEntry>> deleteEntriesByRating(@PathVariable Integer rating) {
         List<LibraryEntry> entries = libraryEntryRepository.findByRating(rating);
         if (entries == null || entries.isEmpty()) {
@@ -159,7 +159,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entries);
     }
 
-    @DeleteMapping("/addedAt/{addedAt}")
+    @DeleteMapping("/deleteAddedAt/{addedAt}")
     public ResponseEntity<List<LibraryEntry>> deleteEntriesByAddedAt(@PathVariable Integer addedAt) {
         List<LibraryEntry> entries = libraryEntryRepository.findByAddedAt(addedAt);
         if (entries == null || entries.isEmpty()) {

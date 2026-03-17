@@ -25,14 +25,14 @@ public class MediaItemController {
         return mediaItemRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<MediaItem> getEntryById(@PathVariable Long id) {
         return mediaItemRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    @GetMapping("/{title}")
+    @GetMapping("/title/{title}")
     public ResponseEntity<MediaItem> getEntryByTitle(@PathVariable String title) {
         return mediaItemRepository.findByTitle(title)
                 .map(ResponseEntity::ok)
@@ -66,12 +66,12 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
-    @DeleteMapping("/all")
+    @DeleteMapping("/deleteAll")
     public void deleteAllEntries() {
         mediaItemRepository.deleteAll();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteId/{id}")
     public ResponseEntity<MediaItem> deleteEntryById(@PathVariable Long id) {
         MediaItem mediaItem = mediaItemRepository.findById(id).orElse(null);
         if (mediaItem == null) {
@@ -81,7 +81,7 @@ public class MediaItemController {
         return ResponseEntity.ok(mediaItem);
     }
 
-    @DeleteMapping("/title/{title}")
+    @DeleteMapping("/deleteTitle/{title}")
     public ResponseEntity<MediaItem> deleteEntryByTitle(@PathVariable String title) {
         MediaItem mediaItem = mediaItemRepository.findByTitle(title).orElse(null);
         if (mediaItem == null) {
@@ -91,7 +91,7 @@ public class MediaItemController {
         return ResponseEntity.ok(mediaItem);
     }
 
-    @DeleteMapping("/releaseYear/{releaseYear}")
+    @DeleteMapping("/deleteReleaseYear/{releaseYear}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByReleaseYear(@PathVariable int releaseYear) {
         List<MediaItem> items = mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -101,7 +101,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }  
 
-    @DeleteMapping("/type/{type}")
+    @DeleteMapping("/deleteType/{type}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByType(@PathVariable MediaType type) {
         List<MediaItem> items = mediaItemRepository.findByType(type).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -111,7 +111,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
-    @DeleteMapping("/genre/{genre}")
+    @DeleteMapping("/deleteGenre/{genre}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByGenre(@PathVariable String genre) {
         List<MediaItem> items = mediaItemRepository.findByGenre(genre);
         if (items == null || items.isEmpty()) {
