@@ -1,0 +1,17 @@
+version: '3'
+services:
+ h2:
+  image: oscarfonts/h2
+  container_name: media-library-h2
+  ports:
+  - "9092:9092"
+  - "8082:8082"
+  environment:
+  H2_OPTIONS: "-tcp -tcpAllowOthers -web -webAllowOthers"
+ app:
+  build: .
+  container_name: media-library-app
+  ports:
+    - "8080:8080"
+  depends_on:
+    - h2

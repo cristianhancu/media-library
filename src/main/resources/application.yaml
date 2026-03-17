@@ -1,3 +1,17 @@
+server:
+ port: 8080
 spring:
-  application:
-    name: library
+ datasource:
+ url: jdbc:h2:tcp://h2:9092/mem:library
+ driver-class-name: org.h2.Driver
+ username: sa
+ password:
+jpa:
+  hibernate:
+  ddl-auto: update
+  show-sql: true
+  database-platform: org.hibernate.dialect.H2Dialect
+h2:
+  console:
+  enabled: true
+  path: /h2-console
