@@ -47,6 +47,10 @@ public class MediaItemService {
         return mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
     }
 
+    public List<MediaItem> getMediaItemsByType(MediaType type) {
+        return mediaItemRepository.findByType(type).orElse(null);
+    }
+
     public List<MediaItem> getMediaItemsByGenre(String genre) {
         return mediaItemRepository.findByGenre(genre);
     }
@@ -61,5 +65,9 @@ public class MediaItemService {
 
     public void deleteAllMediaItems() {
         mediaItemRepository.deleteAll();
+    }
+    
+    public void deleteMediaItemsByType(MediaType type) {
+        mediaItemRepository.deleteByType(type);
     }
 }
