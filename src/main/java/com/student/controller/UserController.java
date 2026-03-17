@@ -1,7 +1,7 @@
-package com.student.controller;
+package com.student.library.controller;
 
-import com.student.library.Model.User;
-import com.student.repository.UserRepository;
+import com.student.library.model.User;
+import com.student.library.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,8 @@ public class UserController {
         return userRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    
+    }
+
     @GetMapping("/{name}")
     public ResponseEntity<User> getEntryByName(@PathVariable String name) {
         return userRepository.findByName(name)
@@ -49,19 +50,19 @@ public class UserController {
     }
 
     @PostMapping("/addUser/{name}")
-    public User addUser(@PathVariable String name, @RequestBody User user) {
+    public User addUserByName(@PathVariable String name, @RequestBody User user) {
         user.setName(name);
         return userRepository.save(user);
     }
 
     @PostMapping("/addUser/{email}")
-    public User addUser(@PathVariable String email, @RequestBody User user) {
+    public User addUserByEmail(@PathVariable String email, @RequestBody User user) {
         user.setEmail(email);
         return userRepository.save(user);
     }
 
     @PutMapping("/updateUser/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    public User updateUserById(@PathVariable Long id, @RequestBody User user) {
         return userRepository.findById(id)
                 .map(existingUser -> {
                     existingUser.setName(user.getName());
@@ -72,7 +73,7 @@ public class UserController {
     }
 
      @PutMapping("/updateUser/{name}")
-    public User updateUser(@PathVariable String name, @RequestBody User user) {
+    public User updateUserByName(@PathVariable String name, @RequestBody User user) {
         return userRepository.findByName(name)
                 .map(existingUser -> {
                     existingUser.setName(user.getName());
@@ -99,17 +100,17 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUserById(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
 
     @DeleteMapping("/deleteUser/{name}")
-    public void deleteUser(@PathVariable String name) {
+    public void deleteUserByName(@PathVariable String name) {
         userRepository.deleteByName(name);
     }
 
     @DeleteMapping("/deleteUser/{email}")
-    public void deleteUser(@PathVariable String email) {    
+    public void deleteUserByEmail(@PathVariable String email) {    
         userRepository.deleteByEmail(email);
     }
 }

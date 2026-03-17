@@ -1,3 +1,5 @@
+package com.student.library.model;
+
 import jakarta.persistence.*;
 import java.io.Serializable;
 

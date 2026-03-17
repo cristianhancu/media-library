@@ -1,3 +1,12 @@
+package com.student.library.service;
+
+import com.student.library.model.LibraryEntry;
+import com.student.library.repository.LibraryEntryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class LibraryEntryService {
 
@@ -20,27 +29,28 @@ public class LibraryEntryService {
         return libraryEntryRepository.findById(id).orElse(null);
     }
 
-    public LibraryEntry getLibraryEntryByMediaItemId(Long mediaItemId) {
+    public LibraryEntry getLibraryEntryByMediaItemId(String mediaItemId) {
         return libraryEntryRepository.findByMediaItemId(mediaItemId).orElse(null);
     }
 
-    public List<LibraryEntry> getLibraryEntriesByUserId(Long userId) {
+    public List<LibraryEntry> getLibraryEntriesByUserId(String userId) {
         return libraryEntryRepository.findByUserId(userId);
     }
 
-    public List<LibraryEntry> getLibraryEntriesByStatus(String status) {
+    public List<LibraryEntry> getLibraryEntriesByStatus(LibraryStatus status) {
         return libraryEntryRepository.findByStatus(status);
     }
 
-    public void deleteLibraryEntryByStatus(String status) {
-        libraryEntryRepository.deleteByStatus(status);
+    public void deleteLibraryEntryByStatus(LibraryStatus status) {
+        List<LibraryEntry> entries = libraryEntryRepository.findByStatus(status);
+        libraryEntryRepository.deleteAll(entries);
     }
 
     public LibraryEntry updateLibraryEntry(Long id, LibraryEntry updatedLibraryEntry) {
         return libraryEntryRepository.findById(id)
                 .map(libraryEntry -> {
-                    libraryEntry.setUser(updatedLibraryEntry.getUser());
-                    libraryEntry.setMediaItem(updatedLibraryEntry.getMediaItem());
+                    libraryEntry.setUserId(updatedLibraryEntry.getUserId());
+                    libraryEntry.setMediaItemId(updatedLibraryEntry.getMediaItemId());
                     libraryEntry.setStatus(updatedLibraryEntry.getStatus());
                     return libraryEntryRepository.save(libraryEntry);
                 })

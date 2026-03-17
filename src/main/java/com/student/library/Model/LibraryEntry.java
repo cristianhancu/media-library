@@ -1,8 +1,7 @@
+package com.student.library.model;
 
-    package com.student.library.Model;
-
-    import jakarta.persistence.*;
-    import java.io.Serializable;
+import jakarta.persistence.*;
+import java.io.Serializable;
 
 
     @Entity

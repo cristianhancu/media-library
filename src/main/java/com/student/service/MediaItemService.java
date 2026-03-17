@@ -1,3 +1,13 @@
+package com.student.library.service;
+
+import com.student.library.model.MediaItem;
+import com.student.library.repository.MediaItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import com.student.library.model.MediaType;
+
 @Service
 public class MediaItemService {
 
@@ -36,8 +46,9 @@ public class MediaItemService {
         return mediaItemRepository.findById(id)
                 .map(mediaItem -> {
                     mediaItem.setTitle(updatedMediaItem.getTitle());
-                    mediaItem.setAuthor(updatedMediaItem.getAuthor());
                     mediaItem.setType(updatedMediaItem.getType());
+                    mediaItem.setReleaseYear(updatedMediaItem.getReleaseYear());
+                    mediaItem.setGenre(updatedMediaItem.getGenre());
                     return mediaItemRepository.save(mediaItem);
                 })
                 .orElse(null);

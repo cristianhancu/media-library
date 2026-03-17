@@ -1,7 +1,8 @@
-package com.student.controller;
+package com.student.library.controller;
 
-import com.student.library.Model.LibraryEntry;
-import com.student.repository.LibraryEntryRepository;
+import com.student.library.model.LibraryEntry;
+import com.student.library.model.LibraryStatus;
+import com.student.library.repository.LibraryEntryRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class LibraryEntryController {
         this.libraryEntryRepository = libraryEntryRepository;
     }
 
-    @GetMapping('/all')
+    @GetMapping("/all")
     public List<LibraryEntry> getAllEntries() {
         return libraryEntryRepository.findAll();
     }
@@ -31,7 +32,7 @@ public class LibraryEntryController {
     }
     
     @GetMapping("/{userId}")
-    public ResponseEntity<List<LibraryEntry>> getEntriesByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<LibraryEntry>> getEntriesByUserId(@PathVariable String userId) {
         List<LibraryEntry> entries = libraryEntryRepository.findByUserId(userId);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -40,14 +41,14 @@ public class LibraryEntryController {
     }
 
     @GetMapping("/mediaItem/{mediaItemId}")
-    public ResponseEntity<LibraryEntry> getEntryByMediaItemId(@PathVariable Long mediaItemId) {
+    public ResponseEntity<LibraryEntry> getEntryByMediaItemId(@PathVariable String mediaItemId) {
         return libraryEntryRepository.findByMediaItemId(mediaItemId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<LibraryEntry>> getEntriesByStatus(@PathVariable String status) {
+    public ResponseEntity<List<LibraryEntry>> getEntriesByStatus(@PathVariable LibraryStatus status) {
         List<LibraryEntry> entries = libraryEntryRepository.findByStatus(status);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -56,7 +57,7 @@ public class LibraryEntryController {
     }
 
     @GetMapping("/rating/{rating}")
-    public ResponseEntity<List<LibraryEntry>> getEntriesByRating(@PathVariable double rating) {
+    public ResponseEntity<List<LibraryEntry>> getEntriesByRating(@PathVariable Integer rating) {
         List<LibraryEntry> entries = libraryEntryRepository.findByRating(rating);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -65,7 +66,7 @@ public class LibraryEntryController {
     }
 
     @GetMapping("/addedAt/{addedAt}")
-    public ResponseEntity<List<LibraryEntry>> getEntriesByAddedAt(@PathVariable String addedAt) {
+    public ResponseEntity<List<LibraryEntry>> getEntriesByAddedAt(@PathVariable Integer addedAt) {
         List<LibraryEntry> entries = libraryEntryRepository.findByAddedAt(addedAt);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -88,7 +89,7 @@ public class LibraryEntryController {
     }
 
     @PutMapping("/rating/{rating}")
-    public ResponseEntity<List<LibraryEntry>> updateEntriesByRating(@PathVariable double rating, @RequestBody LibraryEntry updatedEntry) {
+    public ResponseEntity<List<LibraryEntry>> updateEntriesByRating(@PathVariable Integer rating, @RequestBody LibraryEntry updatedEntry) {
         List<LibraryEntry> entries = libraryEntryRepository.findByRating(rating);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -119,7 +120,7 @@ public class LibraryEntryController {
     }
 
     @DeleteMapping("/userId/{userId}")
-    public ResponseEntity<List<LibraryEntry>> deleteEntriesByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<LibraryEntry>> deleteEntriesByUserId(@PathVariable String userId) {
         List<LibraryEntry> entries = libraryEntryRepository.findByUserId(userId);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -129,7 +130,7 @@ public class LibraryEntryController {
     }
 
     @DeleteMapping("/mediaItem/{mediaItemId}")
-    public ResponseEntity<LibraryEntry> deleteEntryByMediaItemId(@PathVariable Long mediaItemId) {
+    public ResponseEntity<LibraryEntry> deleteEntryByMediaItemId(@PathVariable String mediaItemId) {
         LibraryEntry entry = libraryEntryRepository.findByMediaItemId(mediaItemId).orElse(null);
         if (entry == null) {
             return ResponseEntity.notFound().build();
@@ -139,7 +140,7 @@ public class LibraryEntryController {
     }
 
     @DeleteMapping("/status/{status}")
-    public ResponseEntity<List<LibraryEntry>> deleteEntriesByStatus(@PathVariable String status) {
+    public ResponseEntity<List<LibraryEntry>> deleteEntriesByStatus(@PathVariable LibraryStatus status) {
         List<LibraryEntry> entries = libraryEntryRepository.findByStatus(status);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -149,7 +150,7 @@ public class LibraryEntryController {
     }
 
     @DeleteMapping("/rating/{rating}")
-    public ResponseEntity<List<LibraryEntry>> deleteEntriesByRating(@PathVariable double rating) {
+    public ResponseEntity<List<LibraryEntry>> deleteEntriesByRating(@PathVariable Integer rating) {
         List<LibraryEntry> entries = libraryEntryRepository.findByRating(rating);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -159,7 +160,7 @@ public class LibraryEntryController {
     }
 
     @DeleteMapping("/addedAt/{addedAt}")
-    public ResponseEntity<List<LibraryEntry>> deleteEntriesByAddedAt(@PathVariable String addedAt) {
+    public ResponseEntity<List<LibraryEntry>> deleteEntriesByAddedAt(@PathVariable Integer addedAt) {
         List<LibraryEntry> entries = libraryEntryRepository.findByAddedAt(addedAt);
         if (entries == null || entries.isEmpty()) {
             return ResponseEntity.notFound().build();

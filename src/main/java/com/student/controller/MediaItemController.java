@@ -1,7 +1,8 @@
-package com.student.controller;
+package com.student.library.controller;
 
-import com.student.library.Model.User;
-import com.student.repository.UserRepository;
+import com.student.library.model.MediaItem;
+import com.student.library.model.MediaType;
+import com.student.library.repository.MediaItemRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,16 +114,6 @@ public class MediaItemController {
     @DeleteMapping("/genre/{genre}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByGenre(@PathVariable String genre) {
         List<MediaItem> items = mediaItemRepository.findByGenre(genre);
-        if (items == null || items.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        mediaItemRepository.deleteAll(items);
-        return ResponseEntity.ok(items);
-    }
-
-    @DeleteMapping("releaseYear/{releaseYear}")
-    public ResponseEntity<List<MediaItem>> deleteEntriesByReleaseYear(@PathVariable int releaseYear) {
-        List<MediaItem> items = mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
         if (items == null || items.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

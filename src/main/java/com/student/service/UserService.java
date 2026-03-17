@@ -1,3 +1,12 @@
+package com.student.library.service;
+
+import com.student.library.model.User;
+import com.student.library.repository.UserRepository;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 
 public class UserService {
@@ -22,8 +31,9 @@ public class UserService {
     public User updateUser(Long id, User updatedUser) {
         return userRepository.findById(id)
                 .map(user -> {
-                    user.setUsername(updatedUser.getUsername());
+                    user.setName(updatedUser.getName());
                     user.setEmail(updatedUser.getEmail());
+                    user.setCreatedAt(updatedUser.getCreatedAt());
                     return userRepository.save(user);
                 })
                 .orElse(null);
@@ -32,15 +42,6 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
-    
-    public User getAllUsersByEmail(String email) {
-        return userRepository.findAllByEmail(email).orElse(null);
-    }
-
-    public List<User> getAllUsersByCreatedAt(LocalDate createdAt) {
-        return userRepository.findAllByCreatedAt(createdAt).orElse(null);
-    }
-
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

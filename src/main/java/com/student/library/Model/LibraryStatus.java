@@ -1,4 +1,4 @@
-package com.student.library.Model;
+package com.student.library.model;
 
 public enum LibraryStatus {
     PLANNED,
