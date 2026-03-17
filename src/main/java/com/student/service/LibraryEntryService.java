@@ -1,6 +1,7 @@
 package com.student.library.service;
 
 import com.student.library.model.LibraryEntry;
+import com.student.library.model.LibraryStatus;
 import com.student.library.repository.LibraryEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

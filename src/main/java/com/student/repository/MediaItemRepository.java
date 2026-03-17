@@ -15,4 +15,5 @@ public interface MediaItemRepository extends JpaRepository<MediaItem, Long> {
     Optional<List<MediaItem>> findByReleaseYear(int releaseYear);
     Optional<List<MediaItem>> findByType(MediaType type);
     List<MediaItem> findByGenre(String genre);
+    void deleteByType(MediaType type);
 }
