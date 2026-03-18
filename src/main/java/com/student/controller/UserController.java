@@ -85,7 +85,7 @@ public class UserController {
                 .orElse(null);
     }
 
-    @DeleteMapping("/deleteUser/all")
+    @DeleteMapping("r/all")
     public void deleteAllUsers() {
         userRepository.deleteAll();
     }

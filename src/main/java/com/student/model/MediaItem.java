@@ -17,7 +17,7 @@ public class MediaItem implements Serializable {
 		private MediaType type;
 
 		@Column(name = "release_year")
-		private int releaseYear;
+		private Integer releaseYear;
 
 		private String genre;
 

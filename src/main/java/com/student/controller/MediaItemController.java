@@ -27,21 +27,21 @@ public class MediaItemController {
         return mediaItemRepository.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("id/{id}")
     public ResponseEntity<MediaItem> getEntryById(@PathVariable Long id) {
         return mediaItemRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    @GetMapping("/{title}")
+    @GetMapping("title/{title}")
     public ResponseEntity<MediaItem> getEntryByTitle(@PathVariable String title) {
         return mediaItemRepository.findByTitle(title)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }  
 
-    @GetMapping("/{releaseYear}")
+    @GetMapping("releaseYear/{releaseYear}")
     public ResponseEntity<List<MediaItem>> getEntriesByReleaseYear(@PathVariable int releaseYear) {
         List<MediaItem> items = mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -50,7 +50,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }  
 
-    @GetMapping("/{type}")
+    @GetMapping("type/{type}")
     public ResponseEntity<List<MediaItem>> getEntriesByType(@PathVariable MediaType type) {
         List<MediaItem> items = mediaItemRepository.findByType(type).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -59,7 +59,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
-    @GetMapping("/{genre}")
+    @GetMapping("genre/{genre}")
     public ResponseEntity<List<MediaItem>> getEntriesByGenre(@PathVariable String genre) {
         List<MediaItem> items = mediaItemRepository.findByGenre(genre);
         if (items == null || items.isEmpty()) {
@@ -79,7 +79,7 @@ public class MediaItemController {
         mediaItemRepository.deleteAll();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("id/{id}")
     public ResponseEntity<MediaItem> deleteEntryById(@PathVariable Long id) {
         MediaItem mediaItem = mediaItemRepository.findById(id).orElse(null);
         if (mediaItem == null) {
@@ -89,7 +89,7 @@ public class MediaItemController {
         return ResponseEntity.ok(mediaItem);
     }
 
-    @DeleteMapping("/{title}")
+    @DeleteMapping("title/{title}")
     public ResponseEntity<MediaItem> deleteEntryByTitle(@PathVariable String title) {
         MediaItem mediaItem = mediaItemRepository.findByTitle(title).orElse(null);
         if (mediaItem == null) {
@@ -99,7 +99,7 @@ public class MediaItemController {
         return ResponseEntity.ok(mediaItem);
     }
 
-    @DeleteMapping("/{releaseYear}")
+    @DeleteMapping("releaseYear/{releaseYear}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByReleaseYear(@PathVariable int releaseYear) {
         List<MediaItem> items = mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -109,7 +109,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }  
 
-    @DeleteMapping("/{type}")
+    @DeleteMapping("type/{type}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByType(@PathVariable MediaType type) {
         List<MediaItem> items = mediaItemRepository.findByType(type).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -119,7 +119,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
-    @DeleteMapping("/{genre}")
+    @DeleteMapping("genre{genre}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByGenre(@PathVariable String genre) {
         List<MediaItem> items = mediaItemRepository.findByGenre(genre);
         if (items == null || items.isEmpty()) {
