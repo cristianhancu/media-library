@@ -25,21 +25,21 @@ public class MediaItemController {
         return mediaItemRepository.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<MediaItem> getEntryById(@PathVariable Long id) {
         return mediaItemRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    @GetMapping("/title/{title}")
+    @GetMapping("/{title}")
     public ResponseEntity<MediaItem> getEntryByTitle(@PathVariable String title) {
         return mediaItemRepository.findByTitle(title)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }  
 
-    @GetMapping("/releaseYear/{releaseYear}")
+    @GetMapping("/{releaseYear}")
     public ResponseEntity<List<MediaItem>> getEntriesByReleaseYear(@PathVariable int releaseYear) {
         List<MediaItem> items = mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -48,7 +48,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }  
 
-    @GetMapping("/type/{type}")
+    @GetMapping("/{type}")
     public ResponseEntity<List<MediaItem>> getEntriesByType(@PathVariable MediaType type) {
         List<MediaItem> items = mediaItemRepository.findByType(type).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -57,7 +57,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
-    @GetMapping("/genre/{genre}")
+    @GetMapping("{genre}")
     public ResponseEntity<List<MediaItem>> getEntriesByGenre(@PathVariable String genre) {
         List<MediaItem> items = mediaItemRepository.findByGenre(genre);
         if (items == null || items.isEmpty()) {

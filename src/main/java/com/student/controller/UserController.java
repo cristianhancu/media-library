@@ -24,46 +24,46 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getEntryById(@PathVariable Long id) {
         return userRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<User> getEntryByName(@PathVariable String name) {
         return userRepository.findByName(name)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/email/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<User> getEntryByEmail(@PathVariable String email) {
         return userRepository.findByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/addUser/id/{id}")
+    @PostMapping("/addUser/{id}")
     public User addUser(@PathVariable Long id, @RequestBody User user) {
         user.setId(id);
         return userRepository.save(user);
     }
 
-    @PostMapping("/addUser/name/{name}")
+    @PostMapping("/addUser/{name}")
     public User addUserByName(@PathVariable String name, @RequestBody User user) {
         user.setName(name);
-        return userRepository.save(user);
+        return user;
     }
 
-    @PostMapping("/addUser/email/{email}")
+    @PostMapping("/addUser/{email}")
     public User addUserByEmail(@PathVariable String email, @RequestBody User user) {
         user.setEmail(email);
         return userRepository.save(user);
     }
 
-    @PutMapping("/updateUser/id/{id}")
+    @PutMapping("/updateUser/{id}")
     public User updateUserById(@PathVariable Long id, @RequestBody User user) {
         return userRepository.findById(id)
                 .map(existingUser -> {
@@ -74,7 +74,7 @@ public class UserController {
                 .orElse(null);
     }
 
-     @PutMapping("/updateUser/name/{name}")
+     @PutMapping("/updateUser/{name}")
     public User updateUserByName(@PathVariable String name, @RequestBody User user) {
         return userRepository.findByName(name)
                 .map(existingUser -> {
@@ -85,7 +85,7 @@ public class UserController {
                 .orElse(null);
     }   
 
-    @PutMapping("/updateUser/email/{email}")
+    @PutMapping("/updateUser/{email}")
     public User updateUser(@PathVariable String email, @RequestBody User user) {
         return userRepository.findByEmail(email)
                 .map(existingUser -> {
@@ -101,17 +101,17 @@ public class UserController {
         userRepository.deleteAll();
     }
 
-    @DeleteMapping("/deleteUser/id/{id}")
+    @DeleteMapping("/deleteUser/{id}")
     public void deleteUserById(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
 
-    @DeleteMapping("/deleteUser/name/{name}")
+    @DeleteMapping("/deleteUser/{name}")
     public void deleteUserByName(@PathVariable String name) {
         userRepository.deleteByName(name);
     }
 
-    @DeleteMapping("/deleteUser/email/{email}")
+    @DeleteMapping("/deleteUser/{email}")
     public void deleteUserByEmail(@PathVariable String email) {    
         userRepository.deleteByEmail(email);
     }

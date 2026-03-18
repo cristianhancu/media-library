@@ -24,14 +24,14 @@ public class LibraryEntryController {
         return libraryEntryRepository.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<LibraryEntry> getEntryById(@PathVariable Long id) {
         return libraryEntryRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    @GetMapping("/userId/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<List<LibraryEntry>> getEntriesByUserId(@PathVariable String userId) {
         List<LibraryEntry> entries = libraryEntryRepository.findByUserId(userId);
         if (entries == null || entries.isEmpty()) {
@@ -40,14 +40,14 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entries);
     }
 
-    @GetMapping("/mediaItem/{mediaItemId}")
+    @GetMapping("/{mediaItemId}")
     public ResponseEntity<LibraryEntry> getEntryByMediaItemId(@PathVariable String mediaItemId) {
         return libraryEntryRepository.findByMediaItemId(mediaItemId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/status/{status}")
+    @GetMapping("/{status}")
     public ResponseEntity<List<LibraryEntry>> getEntriesByStatus(@PathVariable LibraryStatus status) {
         List<LibraryEntry> entries = libraryEntryRepository.findByStatus(status);
         if (entries == null || entries.isEmpty()) {
@@ -56,7 +56,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entries);
     }
 
-    @GetMapping("/rating/{rating}")
+    @GetMapping("/{rating}")
     public ResponseEntity<List<LibraryEntry>> getEntriesByRating(@PathVariable Integer rating) {
         List<LibraryEntry> entries = libraryEntryRepository.findByRating(rating);
         if (entries == null || entries.isEmpty()) {
@@ -65,7 +65,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entries);
     }
 
-    @GetMapping("/addedAt/{addedAt}")
+    @GetMapping("/{addedAt}")
     public ResponseEntity<List<LibraryEntry>> getEntriesByAddedAt(@PathVariable Integer addedAt) {
         List<LibraryEntry> entries = libraryEntryRepository.findByAddedAt(addedAt);
         if (entries == null || entries.isEmpty()) {
@@ -74,7 +74,7 @@ public class LibraryEntryController {
         return ResponseEntity.ok(entries);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateId/{id}")
     public ResponseEntity<LibraryEntry> updateEntry(@PathVariable Long id, @RequestBody LibraryEntry updatedEntry) {
         return libraryEntryRepository.findById(id)
                 .map(entry -> {
@@ -88,7 +88,7 @@ public class LibraryEntryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/rating/{rating}")
+    @PutMapping("/updateRating/{rating}")
     public ResponseEntity<List<LibraryEntry>> updateEntriesByRating(@PathVariable Integer rating, @RequestBody LibraryEntry updatedEntry) {
         List<LibraryEntry> entries = libraryEntryRepository.findByRating(rating);
         if (entries == null || entries.isEmpty()) {
