@@ -1,10 +1,9 @@
-package com.student.library.service;
+package com.student.service;
 
-import com.student.library.model.User;
-import com.student.library.repository.UserRepository;
+import com.student.model.User;
+import com.student.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service

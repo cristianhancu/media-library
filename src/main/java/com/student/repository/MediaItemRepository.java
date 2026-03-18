@@ -1,7 +1,7 @@
-package com.student.library.repository;
+package com.student.repository;
 
-import com.student.library.model.MediaItem;
-import com.student.library.model.MediaType;
+import com.student.model.MediaItem;
+import com.student.model.MediaType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package com.student.library.repository;
+package com.student.repository;
 
-import com.student.library.model.User;
+import com.student.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

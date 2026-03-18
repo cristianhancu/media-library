@@ -1,7 +1,7 @@
-package com.student.library.repository;
+package com.student.repository;
 
-import com.student.library.model.LibraryEntry;
-import com.student.library.model.LibraryStatus;
+import com.student.model.LibraryEntry;
+import com.student.model.LibraryStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

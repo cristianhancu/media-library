@@ -1,9 +1,8 @@
-package com.student.library.service;
+package com.student.service;
 
-import com.student.library.model.LibraryEntry;
-import com.student.library.model.LibraryStatus;
-import com.student.library.repository.LibraryEntryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.student.model.LibraryEntry;
+import com.student.model.LibraryStatus;
+import com.student.repository.LibraryEntryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,6 @@ public class LibraryEntryService {
 
     private final LibraryEntryRepository libraryEntryRepository;
 
-    @Autowired
     public LibraryEntryService(LibraryEntryRepository libraryEntryRepository) {
         this.libraryEntryRepository = libraryEntryRepository;
     }

@@ -1,11 +1,9 @@
-package com.student.library.dto;
+package com.student.dto;
 
 public class UserDTO {
     private Long id;
     private String name;
     private String email;
-    private Integer createdAt;
-
     // Getters and Setters
     public Long getId() {
         return id;

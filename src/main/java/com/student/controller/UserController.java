@@ -1,12 +1,13 @@
-package com.student.library.controller;
+package com.student.controller;
 
-import com.student.library.model.User;
-import com.student.library.repository.UserRepository;
+import com.student.model.User;
+import com.student.repository.UserRepository;
+
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+
 import java.util.List;
 
 @RestController
@@ -19,51 +20,46 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+        @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello from Spring Boot!";
+    }
+
     @GetMapping("/all")
     public List<User> getAllEntries() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getEntryById(@PathVariable Long id) {
         return userRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<User> getEntryByName(@PathVariable String name) {
         return userRepository.findByName(name)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<User> getEntryByEmail(@PathVariable String email) {
         return userRepository.findByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/addUser/{id}")
-    public User addUser(@PathVariable Long id, @RequestBody User user) {
-        user.setId(id);
-        return userRepository.save(user);
-    }
+   @PostMapping("/addUser")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+    user.setName(user.getName());
+    user.setEmail(user.getEmail());
+    User savedUser = userRepository.save(user);
+    return ResponseEntity.status(201).body(savedUser);
+}   
 
-    @PostMapping("/addUser/{name}")
-    public User addUserByName(@PathVariable String name, @RequestBody User user) {
-        user.setName(name);
-        return user;
-    }
-
-    @PostMapping("/addUser/{email}")
-    public User addUserByEmail(@PathVariable String email, @RequestBody User user) {
-        user.setEmail(email);
-        return userRepository.save(user);
-    }
-
-    @PutMapping("/updateUser/{id}")
+    @PutMapping("/updateUser/id/{id}")
     public User updateUserById(@PathVariable Long id, @RequestBody User user) {
         return userRepository.findById(id)
                 .map(existingUser -> {
@@ -74,7 +70,7 @@ public class UserController {
                 .orElse(null);
     }
 
-     @PutMapping("/updateUser/{name}")
+     @PutMapping("/updateUser/name/{name}")
     public User updateUserByName(@PathVariable String name, @RequestBody User user) {
         return userRepository.findByName(name)
                 .map(existingUser -> {
@@ -85,7 +81,7 @@ public class UserController {
                 .orElse(null);
     }   
 
-    @PutMapping("/updateUser/{email}")
+    @PutMapping("/updateUser/email/{email}")
     public User updateUser(@PathVariable String email, @RequestBody User user) {
         return userRepository.findByEmail(email)
                 .map(existingUser -> {
@@ -101,17 +97,17 @@ public class UserController {
         userRepository.deleteAll();
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/deleteUser/id/{id}")
     public void deleteUserById(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
 
-    @DeleteMapping("/deleteUser/{name}")
+    @DeleteMapping("/deleteUser/name/{name}")
     public void deleteUserByName(@PathVariable String name) {
         userRepository.deleteByName(name);
     }
 
-    @DeleteMapping("/deleteUser/{email}")
+    @DeleteMapping("/deleteUser/email/{email}")
     public void deleteUserByEmail(@PathVariable String email) {    
         userRepository.deleteByEmail(email);
     }

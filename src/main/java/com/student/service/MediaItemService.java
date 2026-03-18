@@ -1,19 +1,18 @@
-package com.student.library.service;
+package com.student.service;
 
-import com.student.library.model.MediaItem;
-import com.student.library.repository.MediaItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.student.model.MediaItem;
+import com.student.repository.MediaItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import com.student.library.model.MediaType;
+import com.student.model.MediaType;
 
 @Service
 public class MediaItemService {
 
     private final MediaItemRepository mediaItemRepository;
 
-    @Autowired
+
     public MediaItemService(MediaItemRepository mediaItemRepository) {
         this.mediaItemRepository = mediaItemRepository;
     }
