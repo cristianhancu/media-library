@@ -3,6 +3,8 @@ package com.student.controller;
 import com.student.model.MediaItem;
 import com.student.model.MediaType;
 import com.student.repository.MediaItemRepository;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,14 +34,14 @@ public class MediaItemController {
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    @GetMapping("/title/{title}")
+    @GetMapping("/{title}")
     public ResponseEntity<MediaItem> getEntryByTitle(@PathVariable String title) {
         return mediaItemRepository.findByTitle(title)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }  
 
-    @GetMapping("/releaseYear/{releaseYear}")
+    @GetMapping("/{releaseYear}")
     public ResponseEntity<List<MediaItem>> getEntriesByReleaseYear(@PathVariable int releaseYear) {
         List<MediaItem> items = mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -48,7 +50,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }  
 
-    @GetMapping("/type/{type}")
+    @GetMapping("/{type}")
     public ResponseEntity<List<MediaItem>> getEntriesByType(@PathVariable MediaType type) {
         List<MediaItem> items = mediaItemRepository.findByType(type).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -57,7 +59,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
-    @GetMapping("/genre/{genre}")
+    @GetMapping("/{genre}")
     public ResponseEntity<List<MediaItem>> getEntriesByGenre(@PathVariable String genre) {
         List<MediaItem> items = mediaItemRepository.findByGenre(genre);
         if (items == null || items.isEmpty()) {
@@ -66,12 +68,18 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
+    @PostMapping("/addMediaItem")
+    public ResponseEntity<MediaItem> addMediaItem(@RequestBody MediaItem mediaItem) {
+        MediaItem savedMediaItem = mediaItemRepository.save(mediaItem);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedMediaItem);
+    }
+
     @DeleteMapping("/deleteAll")
     public void deleteAllEntries() {
         mediaItemRepository.deleteAll();
     }
 
-    @DeleteMapping("/deleteId/id/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<MediaItem> deleteEntryById(@PathVariable Long id) {
         MediaItem mediaItem = mediaItemRepository.findById(id).orElse(null);
         if (mediaItem == null) {
@@ -81,7 +89,7 @@ public class MediaItemController {
         return ResponseEntity.ok(mediaItem);
     }
 
-    @DeleteMapping("/deleteTitle/title/{title}")
+    @DeleteMapping("/{title}")
     public ResponseEntity<MediaItem> deleteEntryByTitle(@PathVariable String title) {
         MediaItem mediaItem = mediaItemRepository.findByTitle(title).orElse(null);
         if (mediaItem == null) {
@@ -91,7 +99,7 @@ public class MediaItemController {
         return ResponseEntity.ok(mediaItem);
     }
 
-    @DeleteMapping("/deleteReleaseYear/releaseYear/{releaseYear}")
+    @DeleteMapping("/{releaseYear}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByReleaseYear(@PathVariable int releaseYear) {
         List<MediaItem> items = mediaItemRepository.findByReleaseYear(releaseYear).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -101,7 +109,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }  
 
-    @DeleteMapping("/deleteType/type/{type}")
+    @DeleteMapping("/{type}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByType(@PathVariable MediaType type) {
         List<MediaItem> items = mediaItemRepository.findByType(type).orElse(null);
         if (items == null || items.isEmpty()) {
@@ -111,7 +119,7 @@ public class MediaItemController {
         return ResponseEntity.ok(items);
     }
 
-    @DeleteMapping("/deleteGenre/genre/{genre}")
+    @DeleteMapping("/{genre}")
     public ResponseEntity<List<MediaItem>> deleteEntriesByGenre(@PathVariable String genre) {
         List<MediaItem> items = mediaItemRepository.findByGenre(genre);
         if (items == null || items.isEmpty()) {

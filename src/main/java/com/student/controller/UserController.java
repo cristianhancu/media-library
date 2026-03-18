@@ -3,7 +3,7 @@ package com.student.controller;
 import com.student.model.User;
 import com.student.repository.UserRepository;
 
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,46 +20,39 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-        @GetMapping("/hello")
-    public String sayHello() {
-        return "Hello from Spring Boot!";
-    }
-
     @GetMapping("/all")
     public List<User> getAllEntries() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getEntryById(@PathVariable Long id) {
         return userRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<User> getEntryByName(@PathVariable String name) {
         return userRepository.findByName(name)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/email/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<User> getEntryByEmail(@PathVariable String email) {
         return userRepository.findByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-   @PostMapping("/addUser")
+    @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
-    user.setName(user.getName());
-    user.setEmail(user.getEmail());
-    User savedUser = userRepository.save(user);
-    return ResponseEntity.status(201).body(savedUser);
-}   
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+}
 
-    @PutMapping("/updateUser/id/{id}")
+    @PutMapping("/{id}")
     public User updateUserById(@PathVariable Long id, @RequestBody User user) {
         return userRepository.findById(id)
                 .map(existingUser -> {
@@ -70,7 +63,7 @@ public class UserController {
                 .orElse(null);
     }
 
-     @PutMapping("/updateUser/name/{name}")
+     @PutMapping("/{name}")
     public User updateUserByName(@PathVariable String name, @RequestBody User user) {
         return userRepository.findByName(name)
                 .map(existingUser -> {
@@ -81,7 +74,7 @@ public class UserController {
                 .orElse(null);
     }   
 
-    @PutMapping("/updateUser/email/{email}")
+    @PutMapping("/{email}")
     public User updateUser(@PathVariable String email, @RequestBody User user) {
         return userRepository.findByEmail(email)
                 .map(existingUser -> {
@@ -97,17 +90,17 @@ public class UserController {
         userRepository.deleteAll();
     }
 
-    @DeleteMapping("/deleteUser/id/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
 
-    @DeleteMapping("/deleteUser/name/{name}")
+    @DeleteMapping("/{name}")
     public void deleteUserByName(@PathVariable String name) {
         userRepository.deleteByName(name);
     }
 
-    @DeleteMapping("/deleteUser/email/{email}")
+    @DeleteMapping("/{email}")
     public void deleteUserByEmail(@PathVariable String email) {    
         userRepository.deleteByEmail(email);
     }
