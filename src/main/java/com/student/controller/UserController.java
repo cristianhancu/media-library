@@ -25,21 +25,21 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getEntryById(@PathVariable Long id) {
         return userRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<User> getEntryByName(@PathVariable String name) {
         return userRepository.findByName(name)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<User> getEntryByEmail(@PathVariable String email) {
         return userRepository.findByEmail(email)
                 .map(ResponseEntity::ok)
@@ -52,7 +52,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 }
 
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public User updateUserById(@PathVariable Long id, @RequestBody User user) {
         return userRepository.findById(id)
                 .map(existingUser -> {
@@ -63,7 +63,7 @@ public class UserController {
                 .orElse(null);
     }
 
-     @PutMapping("/{name}")
+     @PutMapping("/name/{name}")
     public User updateUserByName(@PathVariable String name, @RequestBody User user) {
         return userRepository.findByName(name)
                 .map(existingUser -> {
@@ -74,7 +74,7 @@ public class UserController {
                 .orElse(null);
     }   
 
-    @PutMapping("/{email}")
+    @PutMapping("/email/{email}")
     public User updateUser(@PathVariable String email, @RequestBody User user) {
         return userRepository.findByEmail(email)
                 .map(existingUser -> {
@@ -85,22 +85,22 @@ public class UserController {
                 .orElse(null);
     }
 
-    @DeleteMapping("r/all")
+    @DeleteMapping("/all")
     public void deleteAllUsers() {
         userRepository.deleteAll();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public void deleteUserById(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping("/name/{name}")
     public void deleteUserByName(@PathVariable String name) {
         userRepository.deleteByName(name);
     }
 
-    @DeleteMapping("/{email}")
+    @DeleteMapping("/email/{email}")
     public void deleteUserByEmail(@PathVariable String email) {    
         userRepository.deleteByEmail(email);
     }
