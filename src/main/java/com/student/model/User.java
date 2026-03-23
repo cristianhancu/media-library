@@ -2,6 +2,9 @@ package com.student.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 @Entity
 @Table(name = "users")
@@ -10,20 +13,30 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    private String email;
 
-    @Column(name = "created_at")
-    private Integer createdAt;
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+
+    @Column(nullable = false, unique = true)
+    private String email;   
+
+    @Column(name = "created_at", nullable = false)
+    @JsonFormat(pattern = "dd MMMM yyyy")
+    private LocalDate createdAt=LocalDate.now();
 
     public User() {}
 
-    public User(Long id, String name, String email, Integer createdAt) {
-        this.id = id;
-        this.name = name;
+    public User( String username, String password, String email, RoleType role) {
+        this.username = username;
+        this.password = password;
         this.email = email;
-        this.createdAt = createdAt;
+        this.role = role;
     }
 
     public Long getId() {
@@ -34,12 +47,20 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -50,11 +71,22 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Integer getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Integer createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
+
+    public void setRole(RoleType role) {
+        this.role = role;
+    }
+    public RoleType getRole() {
+        return role;
+    }
+    @PrePersist
+    protected void onCreate() {
+    this.createdAt = LocalDate.now();
+}
 }
