@@ -1,7 +1,7 @@
 package com.student.model;
 
 public enum RoleType {
-    USER,
-    ADMIN,
-    OWNER
+    ROLE_USER,
+    ROLE_ADMIN,
+    ROLE_OWNER
     }
