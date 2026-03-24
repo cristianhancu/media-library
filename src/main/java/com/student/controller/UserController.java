@@ -1,13 +1,11 @@
 package com.student.controller;
 
 import com.student.model.User;
-import com.student.repository.UserRepository;
+import com.student.service.UserService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -15,88 +13,68 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
-}
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/all")
     public List<User> getAllEntries() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> getEntryById(@PathVariable Long id) {
-        return userRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        User user = userService.getUserById(id);
+        return user != null ? ResponseEntity.ok(user)
+                           : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<User> getEntryByUsername(@PathVariable String username) {
-        return userRepository.findByUsername(username)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        User user = userService.getUserByUsername(username);
+        return user != null ? ResponseEntity.ok(user)
+                    : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<User> getEntryByEmail(@PathVariable String email) {
-        return userRepository.findByEmail(email)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        User user = userService.getUserByEmail(email);
+        return user != null ? ResponseEntity.ok(user)
+                           : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        User savedUser = userRepository.save(user);
+        User savedUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-}
-
-
-     @PutMapping("/updateusername/{username}")
-    public User updateUserByName(@PathVariable String username, @RequestBody User user) {
-        return userRepository.findByUsername(username)
-                .map(existingUser -> {
-                    existingUser.setUsername(user.getUsername());
-                    existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-                    existingUser.setEmail(user.getEmail());
-                    return userRepository.save(existingUser);
-                })
-                .orElse(null);
-    }   
-
-    @PutMapping("/updatemail/{email}")
-    public User updateUser(@PathVariable String email, @RequestBody User user) {
-        return userRepository.findByEmail(email)
-                .map(existingUser -> {
-                    existingUser.setUsername(user.getUsername());
-                    existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-                    existingUser.setEmail(user.getEmail());
-                    return userRepository.save(existingUser);
-                })
-                .orElse(null);
     }
-    
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        User updated = userService.updateUser(id, user, user.getRole());
+        return updated != null ? ResponseEntity.ok(updated)
+                               : ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/delete/all")
     public void deleteAllUsers() {
-        userRepository.deleteAll();
+        userService.deleteAllUsers();
     }
 
     @DeleteMapping("/deleteid/{id}")
     public void deleteUserById(@PathVariable Long id) {
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
     }
 
     @DeleteMapping("/deleteusername/{username}")
     public void deleteUserByName(@PathVariable String username) {
-        userRepository.deleteByUsername(username);
+        userService.deleteUserByUsername(username);
     }
 
     @DeleteMapping("/deleteemail/{email}")
     public void deleteUserByEmail(@PathVariable String email) {    
-        userRepository.deleteByEmail(email);
+        userService.deleteUserByEmail(email);
     }
 }

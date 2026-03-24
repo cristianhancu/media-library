@@ -1,5 +1,6 @@
 package com.student.service;
 
+import com.student.model.RoleType;
 import com.student.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +21,11 @@ public class UserDetailsService implements org.springframework.security.core.use
         com.student.model.User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        RoleType role = user.getRole() != null ? user.getRole() : RoleType.USER;        
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole().name())
+                .roles(role.name())
                 .build();
     }
 }

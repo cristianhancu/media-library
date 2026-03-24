@@ -20,8 +20,11 @@ public class UserService {
     }
 
     public User createUser(User user) {
-    String hashedPassword = passwordEncoder.encode(user.getPassword());
-    user.setPassword(hashedPassword);
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
+        if(user.getRole() == null){
+            user.setRole(RoleType.USER);
+        }
     return userRepository.save(user);
     }
 
@@ -29,8 +32,8 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-    }
+    return userRepository.findByUsername(username).orElse(null);
+}
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
