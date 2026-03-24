@@ -5,6 +5,7 @@ import com.student.repository.UserRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,31 +16,33 @@ import java.util.List;
 public class UserController {
     
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+}
 
     @GetMapping("/all")
     public List<User> getAllEntries() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getEntryById(@PathVariable Long id) {
         return userRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<User> getEntryByUsername(@PathVariable String username) {
         return userRepository.findByUsername(username)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<User> getEntryByEmail(@PathVariable String email) {
         return userRepository.findByEmail(email)
                 .map(ResponseEntity::ok)
@@ -58,7 +61,7 @@ public class UserController {
         return userRepository.findByUsername(username)
                 .map(existingUser -> {
                     existingUser.setUsername(user.getUsername());
-                    existingUser.setPassword(user.getPassword());
+                    existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
                     existingUser.setEmail(user.getEmail());
                     return userRepository.save(existingUser);
                 })
@@ -70,7 +73,7 @@ public class UserController {
         return userRepository.findByEmail(email)
                 .map(existingUser -> {
                     existingUser.setUsername(user.getUsername());
-                    existingUser.setPassword(user.getPassword());
+                    existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
                     existingUser.setEmail(user.getEmail());
                     return userRepository.save(existingUser);
                 })
