@@ -16,7 +16,7 @@ public class UserConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .csrf(csrf -> csrf.disable())
-        .cors(cors -> cors.disable())
+        .cors(cors -> {})
         .authorizeHttpRequests(req -> req
             .requestMatchers("/users/addUser").hasRole("ADMIN")
             .requestMatchers("/users/all").permitAll()
@@ -28,6 +28,8 @@ public class UserConfig {
             .requestMatchers("/users/deleteid/{id}").hasRole("ADMIN")
             .requestMatchers("/users/deleteem/{email}").hasRole("ADMIN" )
             .requestMatchers("/users/deleteusername/{username}").hasRole("ADMIN")
+            .requestMatchers("/users/login").permitAll()
+            .requestMatchers("/users/register").permitAll()
             .anyRequest().authenticated()           
         )
         .httpBasic(Customizer.withDefaults());

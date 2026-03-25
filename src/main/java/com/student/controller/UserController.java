@@ -1,13 +1,17 @@
 package com.student.controller;
 
+import com.student.model.RoleType;
 import com.student.model.User;
 import com.student.service.UserService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -15,6 +19,7 @@ import java.util.List;
 public class UserController {
     
     private final UserService userService;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -46,14 +51,32 @@ public class UserController {
                            : ResponseEntity.notFound().build();
     }
 
-     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        if ("admin".equals(request.getUsername()) && "1234".equals(request.getPassword())) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody User user) {
+
+    User existingUser = userService.getUserByUsername(user.getUsername());
+    if (existingUser == null) {
+        return ResponseEntity.status(401).body("User not found");
     }
+    if (!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+        return ResponseEntity.status(401).body("Wrong password");
+    }
+    return ResponseEntity.ok(existingUser);
+}
+
+@PostMapping("/register")
+public ResponseEntity<?> register(@RequestBody User user) {
+
+    User existingUser = userService.getUserByUsername(user.getUsername());
+
+    if (existingUser != null) {
+        return ResponseEntity.status(409).body("User already exists");
+    }
+    user.setRole(user.getRole() != null ? user.getRole() : RoleType.USER);
+    User savedUser = userService.createUser(user);
+
+    return ResponseEntity.status(201).body(savedUser);
+}
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User savedUser = userService.createUser(user);
