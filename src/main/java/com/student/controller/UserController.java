@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -45,6 +46,14 @@ public class UserController {
                            : ResponseEntity.notFound().build();
     }
 
+     @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        if ("admin".equals(request.getUsername()) && "1234".equals(request.getPassword())) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
+    }
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User savedUser = userService.createUser(user);

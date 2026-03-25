@@ -3,7 +3,5 @@
 @tailwind utilities;
 
 :root{
-    background-color: rgb(250, 160, 42);
-    width: 100%;
-    height: 100%;
+    background-color: rgb(24, 39, 49);
 }
