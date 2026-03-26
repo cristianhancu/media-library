@@ -2,7 +2,7 @@ package com.student.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
@@ -27,8 +27,8 @@ public class User implements Serializable {
     private String email;   
 
     @Column(name = "created_at", nullable = false)
-    @JsonFormat(pattern = "dd MMMM yyyy")
-    private LocalDate createdAt=LocalDate.now();
+    @JsonFormat(pattern = "dd MMMM yyyy HH:mm:ss")
+    private LocalDateTime createdAt=LocalDateTime.now();
 
     public User() {}
 
@@ -71,11 +71,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -87,6 +87,6 @@ public class User implements Serializable {
     }
     @PrePersist
     protected void onCreate() {
-    this.createdAt = LocalDate.now();
+    this.createdAt = LocalDateTime.now();
 }
 }

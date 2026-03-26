@@ -1,8 +1,10 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 
+
 function Dashboard() {
   const navigate = useNavigate();
+
 
   return (
     <div className="flex h-screen">
@@ -54,7 +56,7 @@ function Dashboard() {
           </button>
         </div>
       </div>
-      <div className="flex-1 bg-gray-100 p-6">
+      <div className="flex-1 bg-blue-300 p-5 w-full h-full">
         <Outlet />
       </div>
     </div>
