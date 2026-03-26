@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Users from "./pages/Users";
 import Media from "./pages/Media";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="users" element={<Users />} />
           <Route path="media" element={<Media />} />
+          <Route path="users" element={<Users />} />
+          <Route path="users/:id" element={<UserProfile />} />
         </Route>
 
       </Routes>

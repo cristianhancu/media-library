@@ -21,7 +21,7 @@ public class UserConfig {
             .requestMatchers("/users/addUser").hasRole("ADMIN")
             .requestMatchers("/users/all").permitAll()
             .requestMatchers("/users/delete/all").hasRole("ADMIN")
-            .requestMatchers("/users/id/{id}").permitAll()
+            .requestMatchers("/users/{id}").permitAll()
             .requestMatchers("/users/username/{username}").permitAll()
             .requestMatchers("/users/email/{email}").permitAll()
             .requestMatchers("/users/update/{id}").hasAnyRole("USER", "ADMIN")
